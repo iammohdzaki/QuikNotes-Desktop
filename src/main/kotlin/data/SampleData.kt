@@ -11,7 +11,8 @@ object SampleData {
                 noteId = 1,
                 noteTitle = "Test Note 1",
                 noteBody = "this note contains info of note 1",
-                creationTime = System.currentTimeMillis()
+                creationTime = System.currentTimeMillis(),
+                isSelected = true
             )
         )
         notes.add(Note(noteId = 2, noteTitle = "Test Note 2", noteBody = "this note contains info of note 1"))

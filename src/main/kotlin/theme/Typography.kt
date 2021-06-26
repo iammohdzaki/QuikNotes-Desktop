@@ -8,18 +8,19 @@ import androidx.compose.ui.text.platform.font
 import androidx.compose.ui.unit.sp
 
 
-val LatoFontFamily = fontFamily(
-    font(alias = "Lato-Light", path = "fonts/Lato-Light.ttf", weight = FontWeight.Light),
-    font(alias = "Lato-Regular", path = "fonts/Lato-Regular.ttf", weight = FontWeight.Normal),
-    font(alias = "Lato-Bold", path = "fonts/Lato-Bold.ttf", weight = FontWeight.Bold)
+val sansFontFamily = fontFamily(
+    font(alias = "sans_regular", path = "fonts/sans_regular.ttf", weight = FontWeight.Light),
+    font(alias = "sans_thin", path = "fonts/sans_thin.ttf", weight = FontWeight.Normal),
+    font(alias = "sans_medium", path = "fonts/sans_medium.ttf", weight = FontWeight.Medium),
+    font(alias = "sans_bold", path = "fonts/sans_bold.ttf", weight = FontWeight.Bold)
 )
 
-val LatoFontBoldFamily = fontFamily(
-    font(alias = "Lato-Bold", path = "fonts/Lato-Bold.ttf", weight = FontWeight.Bold)
+val sansFontBoldFamily = fontFamily(
+    font(alias = "sans_bold", path = "fonts/sans_bold.ttf", weight = FontWeight.Bold)
 )
 
 val typography = Typography(
-    defaultFontFamily = LatoFontFamily,
+    defaultFontFamily = sansFontFamily,
     h1 = TextStyle(
         fontWeight = FontWeight.Light,
         fontSize = 96.sp,

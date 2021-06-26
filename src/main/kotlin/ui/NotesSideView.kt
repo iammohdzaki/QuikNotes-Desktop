@@ -18,10 +18,13 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import extensions.Strings
 import model.Note
-import theme.LatoFontBoldFamily
+import theme.DarkColorPalette
+import theme.sansFontFamily
 import theme.divider
+import theme.sansFontBoldFamily
 
 @Composable
 fun NotesSideView(
@@ -65,7 +68,7 @@ fun Header() {
             color = Color.White,
             style = MaterialTheme.typography.subtitle2.copy(
                 fontWeight = FontWeight.Bold,
-                fontFamily = LatoFontBoldFamily
+                fontFamily = sansFontFamily
             )
         )
         Spacer(
@@ -116,7 +119,8 @@ fun NoteView(note: Note, onClick: () -> Unit) {
             )
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        elevation = 18.dp
+        elevation = 18.dp,
+        backgroundColor = if(note.isSelected) DarkColorPalette.onSecondary else DarkColorPalette.onPrimary
     ) {
         Row(
             modifier = Modifier
@@ -134,7 +138,9 @@ fun NoteView(note: Note, onClick: () -> Unit) {
                 Text(
                     text = note.noteTitle.substring(0, 1).toUpperCase(),
                     style = MaterialTheme.typography.body2.copy(
-                        fontWeight = FontWeight.Normal
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = sansFontFamily,
+                        fontSize = 16.sp
                     )
                 )
             }
@@ -146,7 +152,8 @@ fun NoteView(note: Note, onClick: () -> Unit) {
                     .align(Alignment.CenterVertically)
                     .wrapContentWidth(Alignment.Start),
                 style = MaterialTheme.typography.body2.copy(
-                    fontWeight = FontWeight.Normal
+                    fontWeight = FontWeight.Normal,
+                    fontFamily = sansFontFamily
                 )
             )
         }
