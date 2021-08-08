@@ -2,21 +2,21 @@ package theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.fontFamily
-import androidx.compose.ui.text.platform.font
+import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.unit.sp
 
 
-val sansFontFamily = fontFamily(
-    font(alias = "sans_regular", path = "fonts/sans_regular.ttf", weight = FontWeight.Light),
-    font(alias = "sans_thin", path = "fonts/sans_thin.ttf", weight = FontWeight.Normal),
-    font(alias = "sans_medium", path = "fonts/sans_medium.ttf", weight = FontWeight.Medium),
-    font(alias = "sans_bold", path = "fonts/sans_bold.ttf", weight = FontWeight.Bold)
+val sansFontFamily = FontFamily(
+    Font(resource = "fonts/sans_regular.ttf", weight = FontWeight.Light),
+    Font( resource = "fonts/sans_thin.ttf", weight = FontWeight.Normal),
+    Font( resource = "fonts/sans_medium.ttf", weight = FontWeight.Medium),
+    Font( resource = "fonts/sans_bold.ttf", weight = FontWeight.Bold)
 )
 
-val sansFontBoldFamily = fontFamily(
-    font(alias = "sans_bold", path = "fonts/sans_bold.ttf", weight = FontWeight.Bold)
+val sansFontBoldFamily = FontFamily(
+    Font(resource = "fonts/sans_bold.ttf", weight = FontWeight.Bold)
 )
 
 val typography = Typography(

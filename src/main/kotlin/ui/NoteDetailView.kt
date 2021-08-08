@@ -3,18 +3,18 @@
 package ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.background
-import androidx.compose.foundation.defaultScrollbarStyle
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
-import androidx.compose.runtime.savedinstancestate.savedInstanceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.imageFromResource
@@ -22,22 +22,21 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import model.Note
+import theme.TextLight
 import theme.sansFontBoldFamily
-import theme.NoteColors
 import theme.sansFontFamily
-import java.time.format.TextStyle
 
 @Composable
 fun NoteDetailView(note: Note) {
     Column(
         modifier = Modifier.fillMaxSize()
             .background(
-                color = NoteColors.detailsBg
+                color = MaterialTheme.colors.background
             )
     ) {
         Header(note)
-        Divider()
-        ScrollableColumn(
+        Divider(color = TextLight,)
+        Row(
             modifier = Modifier.weight(1f)
         ) {
             EditableBody(note.noteBody) {
@@ -50,7 +49,7 @@ fun NoteDetailView(note: Note) {
 @Composable
 fun Header(note: Note) {
     Row(
-        modifier = Modifier.preferredHeight(70.dp)
+        modifier = Modifier.height(70.dp)
             .padding(15.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -63,9 +62,10 @@ fun Header(note: Note) {
             ),
         )
         Image(
+            contentDescription = "",
             bitmap = imageFromResource(theme.Icons.favorite),
-            colorFilter = ColorFilter.tint(NoteColors.grey),
-            modifier = Modifier.preferredSize(25.dp)
+            colorFilter = ColorFilter.tint(Color.Black),
+            modifier = Modifier.size(25.dp)
                 .padding(start = 10.dp)
         )
         Spacer(
@@ -82,18 +82,17 @@ fun Header(note: Note) {
 @Composable
 private fun HeaderIcon(image: ImageVector) {
     Image(
+        contentDescription = "",
         imageVector = image,
-        colorFilter = ColorFilter(NoteColors.grey, BlendMode.SrcIn),
-        modifier = Modifier.preferredSize(20.dp)
+        modifier = Modifier.size(20.dp)
     )
 }
 
 @Composable
 private fun EditableBody(noteBody: String, onUpdate: (String) -> Unit) {
     var body = remember { mutableStateOf(noteBody) }
-    TextField(
-        modifier = Modifier.fillMaxWidth()
-            .fillMaxHeight(),
+    BasicTextField(
+        modifier = Modifier.fillMaxSize().padding(20.dp),
         value = body.value,
         textStyle = androidx.compose.ui.text.TextStyle(
             color = Color.White,
@@ -104,8 +103,5 @@ private fun EditableBody(noteBody: String, onUpdate: (String) -> Unit) {
             body.value = it
             onUpdate.invoke(it)
         },
-        backgroundColor = NoteColors.detailsBg,
-        maxLines = 100,
-        activeColor = Color.White,
     )
 }

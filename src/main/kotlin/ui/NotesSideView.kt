@@ -5,6 +5,7 @@ package ui
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.Text
@@ -13,18 +14,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.materialIcon
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import extensions.Strings
 import model.Note
-import theme.DarkColorPalette
-import theme.sansFontFamily
-import theme.divider
-import theme.sansFontBoldFamily
+import theme.*
 
 @Composable
 fun NotesSideView(
@@ -33,25 +34,21 @@ fun NotesSideView(
 ) {
     Column(
         modifier = Modifier
-            .preferredWidth(250.dp)
+            .width(300.dp)
             .background(
-                color = MaterialTheme.colors.surface,
-                shape = RectangleShape
+                color = MaterialTheme.colors.background,
             )
             .border(
-                border = BorderStroke(1.dp, color = divider),
-                shape = RectangleShape
+                border = BorderStroke(1.dp, color = TextLight),
             )
             .fillMaxHeight()
     ) {
         Header()
-        Divider(color = divider)
-        Spacer(
-            modifier = Modifier.height(4.dp)
-        )
+        AddNote()
         NoteListView(notesList) { note ->
             onNoteClicked.invoke(note)
         }
+        Spacer(modifier = Modifier.height(10.dp))
     }
 
 }
@@ -59,37 +56,58 @@ fun NotesSideView(
 @Composable
 fun Header() {
     Row(
-        modifier = Modifier.preferredHeight(70.dp)
+        modifier = Modifier.height(70.dp)
+            .background(color = MaterialTheme.colors.primary)
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = Strings.YOUR_NOTES,
-            color = Color.White,
-            style = MaterialTheme.typography.subtitle2.copy(
+            text = Strings.MY_NOTES,
+            color = MaterialTheme.colors.onPrimary,
+            style = MaterialTheme.typography.h5.copy(
                 fontWeight = FontWeight.Bold,
                 fontFamily = sansFontFamily
             )
         )
-        Spacer(
-            modifier = Modifier.weight(1f)
-        )
-        Box(
-            modifier = Modifier.preferredSize(35.dp)
-                .background(
-                    color = Color.White,
-                    shape = CircleShape
-                ),
-            contentAlignment = Alignment.Center
+    }
+}
+
+@Composable
+fun AddNote() {
+    Card(
+        shape = MaterialTheme.shapes.small,
+        modifier = Modifier
+            .padding(
+                top = 4.dp,
+                bottom = 4.dp,
+                start = 8.dp,
+                end = 8.dp
+            ).fillMaxWidth(),
+        elevation = 0.dp,
+        backgroundColor = MaterialTheme.colors.secondary
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp, bottom = 10.dp, start = 8.dp, end = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                imageVector = Icons.Default.Add,
-                modifier = Modifier.preferredSize(25.dp),
-                colorFilter = ColorFilter.tint(
-                    color = Color.Black
-                )
+            Icon(
+                Icons.Default.Add,
+                contentDescription = ""
+            )
+            Spacer(modifier = Modifier.width(20.dp))
+            Text(
+                text = Strings.ADD_NOTE,
+                style = TextStyle(
+                    fontWeight = FontWeight.Normal,
+                    fontFamily = sansFontFamily,
+                    fontSize = 12.sp
+                ),
+                color = MaterialTheme.colors.onSurface
             )
         }
+
     }
 }
 
@@ -109,7 +127,7 @@ fun NoteListView(notesList: ArrayList<Note>, onNoteClicked: (note: Note) -> Unit
 @Composable
 fun NoteView(note: Note, onClick: () -> Unit) {
     Card(
-        shape = MaterialTheme.shapes.small,
+        shape = MaterialTheme.shapes.medium,
         modifier = Modifier
             .padding(
                 top = 4.dp,
@@ -119,42 +137,53 @@ fun NoteView(note: Note, onClick: () -> Unit) {
             )
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        elevation = 18.dp,
-        backgroundColor = if(note.isSelected) DarkColorPalette.onSecondary else DarkColorPalette.onPrimary
+        elevation = 0.dp,
+        backgroundColor = MaterialTheme.colors.secondary
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 12.dp, bottom = 12.dp, start = 8.dp, end = 8.dp)
+                .padding(top = 10.dp, bottom = 10.dp, start = 10.dp, end = 10.dp)
         ) {
-            Box(
-                modifier = Modifier.preferredSize(30.dp)
-                    .background(
-                        color = Color.Red,
-                        shape = CircleShape
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = note.noteTitle.substring(0, 1).toUpperCase(),
-                    style = MaterialTheme.typography.body2.copy(
-                        fontWeight = FontWeight.Normal,
-                        fontFamily = sansFontFamily,
-                        fontSize = 16.sp
-                    )
-                )
-            }
-            Spacer(modifier = Modifier.width(10.dp))
+            Text(
+                text = note.creationTime.toString(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth(Alignment.Start),
+                style = TextStyle(
+                    fontWeight = FontWeight.Normal,
+                    fontFamily = sansFontFamily,
+                    fontSize = 12.sp,
+                ),
+                color = MaterialTheme.colors.onBackground
+            )
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = note.noteTitle,
                 modifier = Modifier
-                    .fillMaxWidth(0.85f)
-                    .align(Alignment.CenterVertically)
+                    .fillMaxWidth()
                     .wrapContentWidth(Alignment.Start),
-                style = MaterialTheme.typography.body2.copy(
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = sansFontFamily,
+                    fontSize = 14.sp,
+                ),
+                color = MaterialTheme.colors.onSecondary
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = note.noteBody,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth(Alignment.Start),
+                style = TextStyle(
                     fontWeight = FontWeight.Normal,
-                    fontFamily = sansFontFamily
-                )
+                    fontFamily = sansFontFamily,
+                    fontSize = 12.sp,
+                ),
+                maxLines = 4,
+                color = MaterialTheme.colors.onBackground,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }
