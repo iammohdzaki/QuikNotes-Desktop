@@ -1,4 +1,4 @@
-package extensions
+package utils.extensions
 
 import java.time.Instant
 import java.time.LocalDateTime
